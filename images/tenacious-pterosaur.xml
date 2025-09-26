@@ -9,24 +9,24 @@
         </starttime>
 
         <static>
-                <file>~/.local/share/wallpapers/tenacious-pterosaur/tenacious-pterosaur-light.svg</file>
+                <file>~/.local/share/backgrounds/bluefin/tenacious-pterosaur/tenacious-pterosaur-light.svg</file>
                 <duration>37200.0</duration>
         </static>
 
         <transition type="overlay">
                 <duration>1800.0</duration>
-                <from>~/.local/share/wallpapers/tenacious-pterosaur/tenacious-pterosaur-light.svg</from>
-                <to>~/.local/share/wallpapers/tenacious-pterosaur/tenacious-pterosaur-dark.svg</to>
+                <from>~/.local/share/backgrounds/bluefin/tenacious-pterosaur/tenacious-pterosaur-light.svg</from>
+                <to>~/.local/share/backgrounds/bluefin/tenacious-pterosaur/tenacious-pterosaur-dark.svg</to>
         </transition>
 
         <static>
-                <file>~/.local/share/wallpapers/tenacious-pterosaur/tenacious-pterosaur-dark.svg</file>
+                <file>~/.local/share/backgrounds/bluefin/tenacious-pterosaur/tenacious-pterosaur-dark.svg</file>
                 <duration>45600.0</duration>
         </static>
 
         <transition type="overlay">
                 <duration>1800.0</duration>
-                <from>~/.local/share/wallpapers/tenacious-pterosaur/tenacious-pterosaur-dark.svg</from>
-                <to>~/.local/share/wallpapers/tenacious-pterosaur/tenacious-pterosaur-light.svg</to>
+                <from>~/.local/share/backgrounds/bluefin/tenacious-pterosaur/tenacious-pterosaur-dark.svg</from>
+                <to>~/.local/share/backgrounds/bluefin/tenacious-pterosaur/tenacious-pterosaur-light.svg</to>
         </transition>
 </background>

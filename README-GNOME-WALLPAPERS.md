@@ -21,8 +21,8 @@ mkdir -p ~/.local/share/backgrounds/bluefin/
 cp images/*.xml ~/.local/share/backgrounds/bluefin/
 
 # Copy wallpaper assets (if not already present)
-mkdir -p ~/.local/share/wallpapers/
-cp -r wallpapers/* ~/.local/share/wallpapers/
+mkdir -p ~/.local/share/backgrounds/bluefin/
+cp -r wallpapers/* ~/.local/share/backgrounds/bluefin/
 ```
 
 ## Wallpapers
