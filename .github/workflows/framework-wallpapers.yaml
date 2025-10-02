@@ -22,9 +22,9 @@ jobs:
         shell: bash
         run: |
           mkdir -p output/packaging/kde/
-          mkdir -p output/packaging/gnome/
+          mkdir -p output/packaging/gnome/images
           mv wallpapers/framework/kde/*.avif output/packaging/kde/
-          cp -R wallpapers/framework/gnome/* output/packaging/gnome/
+          cp -R wallpapers/framework/gnome/* output/packaging/gnome/images
           cd output/packaging && tar -acvf framework-wallpapers.tar.zstd *
 
       - name: Determine tag
