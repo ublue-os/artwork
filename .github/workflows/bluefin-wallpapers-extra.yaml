@@ -38,6 +38,6 @@ jobs:
         with:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
-          name:  "Automated build ${{ steps.tag.outputs.tag }}"
+          name:  "${{ steps.tag.outputs.tag }}"
           artifacts: "output/packaging/bluefin-wallpapers-extra.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}

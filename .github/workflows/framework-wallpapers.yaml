@@ -36,6 +36,6 @@ jobs:
         with:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
-          name:  "Automated build ${{ steps.tag.outputs.tag }}"
+          name:  "${{ steps.tag.outputs.tag }}"
           artifacts: "output/packaging/framework-wallpapers.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}
