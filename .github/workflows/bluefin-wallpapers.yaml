@@ -16,6 +16,8 @@ jobs:
 
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v5
       - name: Install dependencies
         run: |
           export DEBIAN_FRONTEND=noninteractive
