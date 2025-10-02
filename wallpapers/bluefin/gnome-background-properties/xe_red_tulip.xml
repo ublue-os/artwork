@@ -3,7 +3,7 @@
 <wallpapers>
   <wallpaper deleted="false">
     <name>Red Tulip</name>
-    <filename>/usr/share/backgrounds/bluefin/xe_red_tulip.jxl</filename>
+    <filename>~/.local/share/backgrounds/bluefin/xe_red_tulip.jxl</filename>
     <options>zoom</options>
     <shade_type>solid</shade_type>
     <pcolor>#A01F35</pcolor>

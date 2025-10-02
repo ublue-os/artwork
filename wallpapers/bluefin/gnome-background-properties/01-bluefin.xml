@@ -3,12 +3,10 @@
 <wallpapers>
   <wallpaper deleted="false">
     <name>Bluefin 01 - January</name>
-    <filename>/usr/share/backgrounds/bluefin/01-bluefin.xml</filename>
+    <filename>~/.local/share/backgrounds/bluefin/01-bluefin.xml</filename>
     <options>zoom</options>
     <shade_type>solid</shade_type>
     <pcolor>#464646</pcolor>
     <scolor>#464646</scolor>
   </wallpaper>
 </wallpapers>
-
-
