@@ -1,0 +1,32 @@
+<background>
+    <starttime>
+            <year>2018</year>
+            <month>1</month>
+            <day>1</day>
+            <hour>6</hour>
+            <minute>5</minute>
+            <second>0</second>
+    </starttime>
+
+    <static>
+            <file>~/.local/share/backgrounds/aurora/looking_towards_the_future-day.png</file>
+            <duration>37200.0</duration>
+    </static>
+
+    <transition type="overlay">
+            <duration>1800.0</duration>
+            <from>~/.local/share/backgrounds/aurora/looking_towards_the_future-day.png</from>
+            <to>~/.local/share/backgrounds/aurora/looking_towards_the_future-night.png</to>
+    </transition>
+
+    <static>
+            <file>~/.local/share/backgrounds/aurora/looking_towards_the_future-night.png</file>
+            <duration>45600.0</duration>
+    </static>
+
+    <transition type="overlay">
+            <duration>1800.0</duration>
+            <from>~/.local/share/backgrounds/aurora/looking_towards_the_future-night.png</from>
+            <to>~/.local/share/backgrounds/aurora/looking_towards_the_future-day.png</to>
+    </transition>
+</background>
