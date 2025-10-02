@@ -25,7 +25,8 @@ jobs:
           mkdir -p output/packaging/gnome/
           for wp in "collapse" "prey" "tenacious-pterosaur"; do
             mv wallpapers/$wp/kde/*.avif output/packaging/kde/
-            cp -R wallpapers/$wp/gnome/* output/packaging/gnome/
+            cp wallpapers/$wp/gnome/* output/packaging/gnome/images
+            cp -R wallpapers/$wp/gnome/gnome-background-properties output/packaging/gnome/
           done
           cd output/packaging && tar -acvf bluefin-wallpapers-extra.tar.zstd *
 
