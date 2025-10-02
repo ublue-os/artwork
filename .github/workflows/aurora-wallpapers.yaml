@@ -22,6 +22,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p output/packaging/kde/
+          cp -R wallpapers/aurora/* output/packaging/kde/
           cd output/packaging && tar -acvf aurora-wallpapers.tar.zstd *
 
       - name: Determine tag
@@ -34,5 +35,5 @@ jobs:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
           name:  "${{ steps.tag.outputs.tag }}"
-          artifacts: "output/aurora-wallpapers.tar.zstd"
+          artifacts: "output/packaging/aurora-wallpapers.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}

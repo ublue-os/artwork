@@ -24,7 +24,7 @@ jobs:
           mkdir -p output/packaging/kde/
           mkdir -p output/packaging/gnome/
           mv wallpapers/bluefin/kde-support/*.avif output/packaging/kde/
-          cp wallpapers/bluefin/* output/packaging/gnome/
+          cp -R wallpapers/bluefin/* output/packaging/gnome/
           cd output/packaging && tar -acvf bluefin-wallpapers.tar.zstd *
 
       - name: Determine tag
@@ -37,5 +37,5 @@ jobs:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
           name:  "Automated build ${{ steps.tag.outputs.tag }}"
-          artifacts: "output/bluefin-wallpapers.tar.zstd"
+          artifacts: "output/packaging/bluefin-wallpapers.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}

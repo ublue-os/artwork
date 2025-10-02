@@ -25,7 +25,7 @@ jobs:
           mkdir -p output/packaging/gnome/
           for wp in "collapse" "prey" "tenacious-pterosaur"; do
             mv wallpapers/$wp/kde/*.avif output/packaging/kde/
-            cp wallpapers/$wp/gnome/* output/packaging/gnome/
+            cp -R wallpapers/$wp/gnome/* output/packaging/gnome/
           done
           cd output/packaging && tar -acvf bluefin-wallpapers-extra.tar.zstd *
 
@@ -39,5 +39,5 @@ jobs:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
           name:  "Automated build ${{ steps.tag.outputs.tag }}"
-          artifacts: "output/bluefin-wallpapers-extra.tar.zstd"
+          artifacts: "output/packaging/bluefin-wallpapers-extra.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}

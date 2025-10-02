@@ -24,7 +24,7 @@ jobs:
           mkdir -p output/packaging/kde/
           mkdir -p output/packaging/gnome/
           mv wallpapers/framework/kde/*.avif output/packaging/kde/
-          cp wallpapers/framework/gnome/* output/packaging/gnome/
+          cp -R wallpapers/framework/gnome/* output/packaging/gnome/
           cd output/packaging && tar -acvf framework-wallpapers.tar.zstd *
 
       - name: Determine tag
@@ -37,5 +37,5 @@ jobs:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
           name:  "Automated build ${{ steps.tag.outputs.tag }}"
-          artifacts: "output/framework-wallpapers.tar.zstd"
+          artifacts: "output/packaging/framework-wallpapers.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}

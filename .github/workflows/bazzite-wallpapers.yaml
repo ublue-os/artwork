@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p output/packaging/
-          cp wallpapers/bazzite/* output/packaging/
+          cp -R wallpapers/bazzite/* output/packaging/
           cd output/packaging && tar -acvf bazzite-wallpapers.tar.zstd *
 
       - name: Determine tag
@@ -35,5 +35,5 @@ jobs:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
           name:  "${{ steps.tag.outputs.tag }}"
-          artifacts: "output/bazzite-wallpapers.tar.zstd"
+          artifacts: "output/packaging/bazzite-wallpapers.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}
