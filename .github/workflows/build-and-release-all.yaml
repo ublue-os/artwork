@@ -1,0 +1,42 @@
+---
+name: Bluefin Wallpapers
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  create-releases:
+    name: Create All Wallpaper Releases
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Bluefin Wallpapers
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: bluefin-wallpapers.yaml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+
+      - name: Trigger Bluefin Wallpapers Extra
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: bluefin-wallpapers-extra.yaml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+
+      - name: Trigger Aurora Wallpapers
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: aurora-wallpapers.yaml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+
+      - name: Trigger Bazzite Wallpapers
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: bazzite-wallpapers.yaml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
