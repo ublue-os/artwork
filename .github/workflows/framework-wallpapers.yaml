@@ -25,7 +25,8 @@ jobs:
           mkdir -p output/packaging/gnome/images
           mv wallpapers/framework/kde/*.avif output/packaging/kde/
           cp wallpapers/framework/*.svg output/packaging/gnome/images
-          cp -R wallpapers/framework/gnome/*.xml output/packaging/gnome/images
+          cp wallpapers/framework/gnome/*.xml output/packaging/gnome/images
+          cp -R wallpapers/framework/gnome/gnome-background-properties output/packaging/gnome/
           cd output/packaging && tar -acvf framework-wallpapers.tar.zstd *
 
       - name: Determine tag
