@@ -1,0 +1,41 @@
+---
+name: Framework Wallpapers
+on:
+  workflow_dispatch:
+
+jobs:
+  create-release:
+    name: Create Release for Framework Wallpapers with Gnome and KDE support
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    # We need a newish version of kimageformats, 24.04 doesn't have it
+    container: docker.io/library/ubuntu:25.04
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Create tarball
+        shell: bash
+        run: |
+          mkdir -p output/packaging/kde/
+          mkdir -p output/packaging/gnome/
+          mv wallpapers/framework/kde/*.avif output/packaging/kde/
+          cp wallpapers/framework/gnome/* output/packaging/gnome/
+          cd output/packaging && tar -acvf framework-wallpapers.tar.zstd *
+
+      - name: Determine tag
+        id: tag
+        run: echo "tag=v$(date --iso-8601=date)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release
+        uses: ncipollo/release-action@v1
+        with:
+          tag:   ${{ steps.tag.outputs.tag }}
+          allowUpdates: true
+          name:  "Automated build ${{ steps.tag.outputs.tag }}"
+          artifacts: "output/framework-wallpapers.tar.zstd"
+          token: ${{ secrets.GITHUB_TOKEN }}

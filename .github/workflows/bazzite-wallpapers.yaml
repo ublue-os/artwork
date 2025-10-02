@@ -1,0 +1,39 @@
+---
+name: Bazzite Wallpapers
+on:
+  workflow_dispatch:
+
+jobs:
+  create-release:
+    name: Create Release for Bazzite Wallpapers
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    # We need a newish version of kimageformats, 24.04 doesn't have it
+    container: docker.io/library/ubuntu:25.04
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Create tarball
+        shell: bash
+        run: |
+          mkdir -p output/packaging/
+          cp wallpapers/bazzite/* output/packaging/
+          cd output/packaging && tar -acvf bazzite-wallpapers.tar.zstd *
+
+      - name: Determine tag
+        id: tag
+        run: echo "tag=v$(date --iso-8601=date)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release
+        uses: ncipollo/release-action@v1
+        with:
+          tag:   ${{ steps.tag.outputs.tag }}
+          allowUpdates: true
+          name:  "${{ steps.tag.outputs.tag }}"
+          artifacts: "output/bazzite-wallpapers.tar.zstd"
+          token: ${{ secrets.GITHUB_TOKEN }}
