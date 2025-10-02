@@ -63,7 +63,7 @@ cat > "$properties" << EOF
 EOF
 
 mkdir -p output/$outputname/gnome/gnome-background-properties
-cp "$imageday" "output/$outputname/gnome/$outputname-day.jxl"
-cp "$imagenight" "output/$outputname/gnome/$outputname-night.jxl"
+cp "$imageday" "output/$outputname/gnome/$outputname-day.$extension"
+cp "$imagenight" "output/$outputname/gnome/$outputname-night.$extension"
 mv "$manifest" "output/$outputname/gnome/$outputname.xml"
 mv "$properties" "output/$outputname/gnome/gnome-background-properties/$outputname.xml"
