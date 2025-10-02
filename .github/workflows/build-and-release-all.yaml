@@ -1,5 +1,5 @@
 ---
-name: Bluefin Wallpapers
+name: Build and Release All Wallpapers
 on:
   workflow_dispatch:
 
