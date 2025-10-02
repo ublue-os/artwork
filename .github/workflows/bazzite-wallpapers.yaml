@@ -1,11 +1,11 @@
 ---
-name: Bluefin Wallpapers
+name: Bazzite Wallpapers
 on:
   workflow_dispatch:
 
 jobs:
   create-release:
-    name: Create Release for Bluefin Wallpapers with Plasma Dynamic Wallpaper support
+    name: Create Release for Bazzite Wallpapers
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -21,11 +21,9 @@ jobs:
       - name: Create tarball
         shell: bash
         run: |
-          mkdir -p output/packaging/kde/
-          mkdir -p output/packaging/gnome/
-          mv wallpapers/bluefin/kde-support/*.avif output/packaging/kde/
-          cp wallpapers/bluefin/* output/packaging/gnome/
-          cd output/packaging && tar -acvf bluefin-wallpapers.tar.zstd *
+          mkdir -p output/packaging/
+          cp wallpapers/bazzite/* output/packaging/
+          cd output/packaging && tar -acvf bazzite-wallpapers.tar.zstd *
 
       - name: Determine tag
         id: tag
@@ -36,6 +34,6 @@ jobs:
         with:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
-          name:  "Automated build ${{ steps.tag.outputs.tag }}"
-          artifacts: "output/bluefin-wallpapers.tar.zstd"
+          name:  "${{ steps.tag.outputs.tag }}"
+          artifacts: "output/bazzite-wallpapers.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}

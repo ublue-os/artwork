@@ -1,11 +1,11 @@
 ---
-name: Bluefin Wallpapers
+name: Bluefin Wallpapers Extra
 on:
   workflow_dispatch:
 
 jobs:
   create-release:
-    name: Create Release for Bluefin Wallpapers with Plasma Dynamic Wallpaper support
+    name: Create Release for Bluefin Wallpapers with Gnome and KDE support
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,9 +23,11 @@ jobs:
         run: |
           mkdir -p output/packaging/kde/
           mkdir -p output/packaging/gnome/
-          mv wallpapers/bluefin/kde-support/*.avif output/packaging/kde/
-          cp wallpapers/bluefin/* output/packaging/gnome/
-          cd output/packaging && tar -acvf bluefin-wallpapers.tar.zstd *
+          for wp in "collapse" "prey" "tenacious-pterosaur"; do
+            mv wallpapers/$wp/kde/*.avif output/packaging/kde/
+            cp wallpapers/$wp/gnome/* output/packaging/gnome/
+          done
+          cd output/packaging && tar -acvf bluefin-wallpapers-extra.tar.zstd *
 
       - name: Determine tag
         id: tag
@@ -37,5 +39,5 @@ jobs:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
           name:  "Automated build ${{ steps.tag.outputs.tag }}"
-          artifacts: "output/bluefin-wallpapers.tar.zstd"
+          artifacts: "output/bluefin-wallpapers-extra.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}

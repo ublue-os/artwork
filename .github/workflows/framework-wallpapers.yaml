@@ -1,11 +1,11 @@
 ---
-name: Bluefin Wallpapers
+name: Framework Wallpapers
 on:
   workflow_dispatch:
 
 jobs:
   create-release:
-    name: Create Release for Bluefin Wallpapers with Plasma Dynamic Wallpaper support
+    name: Create Release for Framework Wallpapers with Gnome and KDE support
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,9 +23,9 @@ jobs:
         run: |
           mkdir -p output/packaging/kde/
           mkdir -p output/packaging/gnome/
-          mv wallpapers/bluefin/kde-support/*.avif output/packaging/kde/
-          cp wallpapers/bluefin/* output/packaging/gnome/
-          cd output/packaging && tar -acvf bluefin-wallpapers.tar.zstd *
+          mv wallpapers/framework/kde/*.avif output/packaging/kde/
+          cp wallpapers/framework/gnome/* output/packaging/gnome/
+          cd output/packaging && tar -acvf framework-wallpapers.tar.zstd *
 
       - name: Determine tag
         id: tag
@@ -37,5 +37,5 @@ jobs:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
           name:  "Automated build ${{ steps.tag.outputs.tag }}"
-          artifacts: "output/bluefin-wallpapers.tar.zstd"
+          artifacts: "output/framework-wallpapers.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}
