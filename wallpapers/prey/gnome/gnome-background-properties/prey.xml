@@ -3,7 +3,7 @@
 <wallpapers>
   <wallpaper deleted="false">
     <name>Project Bluefin - Prey</name>
-    <filename>~/.local/share/backgrounds/bluefin/prey.xml</filename>
+    <filename>~/.local/share/backgrounds/bluefin/prey/prey.xml</filename>
     <options>zoom</options>
     <shade_type>solid</shade_type>
     <pcolor>#464646</pcolor>

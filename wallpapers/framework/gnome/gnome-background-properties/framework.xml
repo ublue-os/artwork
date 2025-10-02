@@ -3,7 +3,7 @@
 <wallpapers>
   <wallpaper deleted="false">
     <name>Project Bluefin - Framework</name>
-    <filename>~/.local/share/backgrounds/bluefin/framework.xml</filename>
+    <filename>~/.local/share/backgrounds/bluefin/framework/framework.xml</filename>
     <options>zoom</options>
     <shade_type>solid</shade_type>
     <pcolor>#464646</pcolor>
