@@ -14,28 +14,28 @@ jobs:
 
     steps:
       - name: Trigger Bluefin Wallpapers
-        uses: benc-uk/workflow-dispatch@v1
+        uses: benc-uk/workflow-dispatch@e2e5e9a103e331dad343f381a29e654aea3cf8fc # v1
         with:
           workflow: bluefin-wallpapers.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Trigger Bluefin Wallpapers Extra
-        uses: benc-uk/workflow-dispatch@v1
+        uses: benc-uk/workflow-dispatch@e2e5e9a103e331dad343f381a29e654aea3cf8fc # v1
         with:
           workflow: bluefin-wallpapers-extra.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Trigger Aurora Wallpapers
-        uses: benc-uk/workflow-dispatch@v1
+        uses: benc-uk/workflow-dispatch@e2e5e9a103e331dad343f381a29e654aea3cf8fc # v1
         with:
           workflow: aurora-wallpapers.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Trigger Bazzite Wallpapers
-        uses: benc-uk/workflow-dispatch@v1
+        uses: benc-uk/workflow-dispatch@e2e5e9a103e331dad343f381a29e654aea3cf8fc # v1
         with:
           workflow: bazzite-wallpapers.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
