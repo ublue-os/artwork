@@ -1,0 +1,37 @@
+---
+name: Aurora Wallpapers Extra
+on:
+  workflow_dispatch:
+
+jobs:
+  aurora-wallpapers-extra:
+    name: Create Release for Aurora Wallpapers Extra
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        with:
+          fetch-depth: 0
+      - name: Create tarball
+        shell: bash
+        run: |
+          mkdir -p output/packaging/kde/
+          cp -R wallpapers/aurora-wallpapers-extra/* output/packaging/kde/
+          cd output/packaging && tar -acvf aurora-wallpapers.tar.zstd *
+
+      - name: Determine tag
+        id: tag
+        run: echo "tag=v$(date --iso-8601=date)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release
+        uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1
+        with:
+          tag:   ${{ steps.tag.outputs.tag }}
+          allowUpdates: true
+          name:  "${{ steps.tag.outputs.tag }}"
+          artifacts: "output/packaging/aurora-wallpapers-extra.tar.zstd"
+          token: ${{ secrets.GITHUB_TOKEN }}
