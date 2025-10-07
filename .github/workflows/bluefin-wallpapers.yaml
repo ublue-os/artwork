@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-release:
+  bluefin-wallpapers:
     name: Create Release for Bluefin Wallpapers with Plasma Dynamic Wallpaper support
     runs-on: ubuntu-latest
     permissions:

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-release:
+  aurora-wallpapers:
     name: Create Release for Aurora Wallpapers
     runs-on: ubuntu-latest
     permissions:
