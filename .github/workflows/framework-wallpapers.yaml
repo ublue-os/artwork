@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-release:
+  framework-wallpapers:
     name: Create Release for Framework Wallpapers with Gnome and KDE support
     runs-on: ubuntu-latest
     permissions:

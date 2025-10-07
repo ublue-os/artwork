@@ -1,16 +1,14 @@
 ---
-name: Bluefin Wallpapers
+name: Aurora Wallpapers Extra
 on:
   workflow_dispatch:
 
 jobs:
-  bluefin-wallpapers:
-    name: Create Release for Bluefin Wallpapers with Plasma Dynamic Wallpaper support
+  aurora-wallpapers-extra:
+    name: Create Release for Aurora Wallpapers Extra
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    # We need a newish version of kimageformats, 24.04 doesn't have it
-    container: docker.io/library/ubuntu:25.04@sha256:103c7471649a4fd9996fe73dff20f46082e4e0f0f6240c91954b8b09c38b6faf
 
     steps:
 
@@ -22,10 +20,8 @@ jobs:
         shell: bash
         run: |
           mkdir -p output/packaging/kde/
-          mkdir -p output/packaging/gnome/
-          mv wallpapers/bluefin/kde-support/*.avif output/packaging/kde/
-          cp -R wallpapers/bluefin/* output/packaging/gnome/
-          cd output/packaging && tar -acvf bluefin-wallpapers.tar.zstd *
+          cp -R wallpapers/aurora-wallpapers-extra/* output/packaging/kde/
+          cd output/packaging && tar -acvf aurora-wallpapers-extra.tar.zstd *
 
       - name: Determine tag
         id: tag
@@ -37,5 +33,5 @@ jobs:
           tag:   ${{ steps.tag.outputs.tag }}
           allowUpdates: true
           name:  "${{ steps.tag.outputs.tag }}"
-          artifacts: "output/packaging/bluefin-wallpapers.tar.zstd"
+          artifacts: "output/packaging/aurora-wallpapers-extra.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}
