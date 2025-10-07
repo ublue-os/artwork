@@ -21,7 +21,7 @@ jobs:
         run: |
           mkdir -p output/packaging/kde/
           cp -R wallpapers/aurora-wallpapers-extra/* output/packaging/kde/
-          cd output/packaging && tar -acvf aurora-wallpapers.tar.zstd *
+          cd output/packaging && tar -acvf aurora-wallpapers-extra.tar.zstd *
 
       - name: Determine tag
         id: tag
