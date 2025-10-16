@@ -34,6 +34,13 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
+      - name: Trigger Aurora Wallpapers Extra
+        uses: benc-uk/workflow-dispatch@e2e5e9a103e331dad343f381a29e654aea3cf8fc # v1
+        with:
+          workflow: aurora-wallpapers-extra.yaml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+
       - name: Trigger Bazzite Wallpapers
         uses: benc-uk/workflow-dispatch@e2e5e9a103e331dad343f381a29e654aea3cf8fc # v1
         with:

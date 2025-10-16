@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-release:
+  bazzite-wallpapers:
     name: Create Release for Bazzite Wallpapers
     runs-on: ubuntu-latest
     permissions:

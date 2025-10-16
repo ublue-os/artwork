@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-release:
+  bluefin-wallpapers-extra:
     name: Create Release for Bluefin Wallpapers with Gnome and KDE support
     runs-on: ubuntu-latest
     permissions:

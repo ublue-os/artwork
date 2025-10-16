@@ -1,0 +1,13 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "https://github.com/Nindelofocho",
+                "Name": "NineTailedFoc"
+            }
+        ],
+        "Id": "AuroraPunk Vanilla",
+        "License": "MIT",
+        "Name": "AuroraPunk Vanilla"
+    }
+}
