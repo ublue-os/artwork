@@ -43,6 +43,21 @@ jobs:
             cp wallpapers/$wp/macos/*.png output/packaging/png/ 2>/dev/null || true
           done
           
+          # Process dusk wallpaper with time-based fading (uses XML transitions)
+          # macOS: HEIC dynamic wallpapers
+          cp wallpapers/dusk/macos/*.heic output/packaging/macos/ 2>/dev/null || true
+          
+          # KDE: AVIF wallpapers
+          cp wallpapers/dusk/kde/*.avif output/packaging/kde/ 2>/dev/null || true
+          
+          # GNOME: JXL images + XML transition files + metadata
+          cp wallpapers/dusk/*.jxl output/packaging/gnome/images/ 2>/dev/null || true
+          cp wallpapers/dusk/*.xml output/packaging/gnome/images/ 2>/dev/null || true
+          cp -R wallpapers/dusk/gnome/gnome-background-properties output/packaging/gnome/ 2>/dev/null || true
+          
+          # PNG: For other desktops
+          cp wallpapers/dusk/macos/*.png output/packaging/png/ 2>/dev/null || true
+          
           # Create archives
           cd output/packaging/macos && tar -acvf ../bluefin-wallpapers-extra-macos.tar.zstd *.heic && cd -
           cd output/packaging/kde && tar -acvf ../bluefin-wallpapers-extra-kde.tar.zstd *.avif && cd -
