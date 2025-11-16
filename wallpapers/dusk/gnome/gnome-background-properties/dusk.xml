@@ -5,5 +5,8 @@
     <name>Project Bluefin - Dusk</name>
     <filename>~/.local/share/backgrounds/bluefin/dusk/dusk.xml</filename>
     <options>zoom</options>
+    <shade_type>solid</shade_type>
+    <pcolor>#464646</pcolor>
+    <scolor>#464646</scolor>
   </wallpaper>
 </wallpapers>
