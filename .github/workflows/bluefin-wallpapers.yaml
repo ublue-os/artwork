@@ -61,7 +61,7 @@ jobs:
         uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1
         with:
           tag:   ${{ steps.tag.outputs.tag }}
-          allowUpdates: false
+          allowUpdates: true
           name:  "${{ steps.tag.outputs.tag }}"
           artifacts: "output/packaging/bluefin-wallpapers-*.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}
