@@ -10,8 +10,9 @@ artwork/
 │   ├── aurora/          # Aurora wallpapers (KDE Plasma format)
 │   ├── bazzite/         # Bazzite wallpapers
 │   ├── bluefin/         # Bluefin wallpapers
-│   ├── bluefin-wallpapers-extra/  # Additional Bluefin wallpapers (SVG)
+│   ├── bluefin-wallpapers-extra/  # Additional Bluefin wallpapers
 │   ├── collapse/        # Collapse day-night wallpaper
+│   ├── dusk/            # Dusk day-night wallpaper
 │   ├── framework/       # Framework day-night wallpaper
 │   ├── prey/            # Prey day-night wallpaper
 │   └── tenacious-pterosaur/  # Tenacious Pterosaur day-night wallpaper
@@ -43,19 +44,19 @@ Located in `wallpapers/bazzite/`:
 ### Day-Night Wallpapers
 Several wallpapers support day/night transitions:
 - `collapse/` - Day/night SVG wallpapers
+- `dusk/` - Day/night JXL wallpapers
 - `framework/` - Day/night SVG wallpapers
 - `prey/` - Day/night SVG wallpapers
 - `tenacious-pterosaur/` - Day/night SVG wallpapers
 
 Each day-night wallpaper contains:
-- Source SVG files (`*-day.svg`, `*-night.svg`)
+- Source image files (`*-day.*`, `*-night.*`) in various formats (SVG, JXL)
 - `gnome/` - GNOME-specific files (XML manifest and background properties)
-- `kde/` - KDE Plasma AVIF dynamic wallpaper files
+- `kde/` - KDE Plasma AVIF dynamic wallpaper files (optional)
+- `macos/` - macOS HEIC dynamic wallpaper files (optional)
 
 ### Extra Wallpapers
-Located in `wallpapers/bluefin-wallpapers-extra/`:
-- SVG wallpapers with day/night variants
-- Includes: collapse, prey, and tenacious-pterosaur
+The `wallpapers/bluefin-wallpapers-extra/` directory contains legacy duplicate files. The extra wallpapers (collapse, dusk, prey, tenacious-pterosaur) are now organized in their own directories as listed above.
 
 ## Scripts and Tools
 

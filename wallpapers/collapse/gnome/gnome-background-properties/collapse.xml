@@ -3,8 +3,8 @@
 <wallpapers>
   <wallpaper deleted="false">
     <name>Project Bluefin - Collapse</name>
-    <filename>~/.local/share/backgrounds/bluefin/collapse-day.svg</filename>
-    <filename-dark>~/.local/share/backgrounds/bluefin/collapse-night.svg</filename-dark>
+    <filename>~/.local/share/backgrounds/bluefin/collapse/collapse-day.svg</filename>
+    <filename-dark>~/.local/share/backgrounds/bluefin/collapse/collapse-night.svg</filename-dark>
     <options>zoom</options>
   </wallpaper>
 </wallpapers>
