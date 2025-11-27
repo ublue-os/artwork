@@ -108,5 +108,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/ublue-os/bluefin-wallpapers-extra-${{ matrix.flavor }}:${{ needs.create-release.outputs.tag }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/bluefin-wallpapers-extra:${{ needs.create-release.outputs.tag }}
+            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/bluefin-wallpapers-extra:latest
           file: Dockerfile
