@@ -85,7 +85,7 @@ jobs:
       - name: Extract tarball
         run: |
           mkdir content
-          tar --zstd -xf output/packaging/framework-wallpapers-${{ matrix.flavor }}.tar.zstd -C content
+          tar --zstd -xf framework-wallpapers-${{ matrix.flavor }}.tar.zstd -C content
 
       - name: Create Dockerfile
         run: |

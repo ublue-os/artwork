@@ -62,7 +62,7 @@ jobs:
       - name: Extract tarball
         run: |
           mkdir content
-          tar --zstd -xf output/packaging/aurora-wallpapers.tar.zstd -C content
+          tar --zstd -xf aurora-wallpapers.tar.zstd -C content
 
       - name: Create Dockerfile
         run: |

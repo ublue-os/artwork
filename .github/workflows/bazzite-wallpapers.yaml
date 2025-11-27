@@ -62,7 +62,7 @@ jobs:
       - name: Extract tarball
         run: |
           mkdir content
-          tar --zstd -xf output/packaging/bazzite-wallpapers.tar.zstd -C content
+          tar --zstd -xf bazzite-wallpapers.tar.zstd -C content
 
       - name: Create Dockerfile
         run: |
