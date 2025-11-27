@@ -47,15 +47,22 @@ jobs:
           echo "Looking for tarballs:"
           find . -name "*.tar.zstd" -ls
 
+      - name: Install zstd
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zstd
+
       - name: Extract tarball
         run: |
           mkdir content
           if [ "${{ matrix.flavor }}" = "" ]; then
             # Single image - no flavor suffix
-            tar --zstd -xf ${{ inputs.image-name }}.tar.zstd -C content
+            # Change: Replace --zstd with -I zstd for broader compatibility
+            tar -I zstd -xf ${{ inputs.image-name }}.tar.zstd -C content 
           else
             # Multi-flavor image
-            tar --zstd -xf ${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd -C content
+            # Change: Replace --zstd with -I zstd for broader compatibility
+            tar -I zstd -xf ${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd -C content
           fi
 
       - name: Create Dockerfile
