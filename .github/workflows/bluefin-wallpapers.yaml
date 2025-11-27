@@ -68,43 +68,8 @@ jobs:
 
   push-image:
     needs: create-release
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        flavor: [gnome, kde, macos]
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: packaging-artifacts
-          path: .
-
-      - name: Extract tarball
-        run: |
-          mkdir content
-          tar --zstd -xf bluefin-wallpapers-${{ matrix.flavor }}.tar.zstd -C content
-
-      - name: Create Dockerfile
-        run: |
-          echo "FROM scratch" > Dockerfile
-          echo "COPY content /usr/share/backgrounds/bluefin-wallpapers/" >> Dockerfile
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and Push Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/  bluefin-wallpapers-${{ matrix.flavor }}:${{ needs.create-release.outputs.tag }}
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/bluefin-wallpapers-${{ matrix.flavor }}:latest
-          file: Dockerfile
+    uses: ./.github/workflows/push-oci-image.yaml
+    with:
+      image-name: bluefin-wallpapers
+      release-tag: ${{ needs.create-release.outputs.tag }}
+      flavors: '["gnome", "kde", "macos", "png"]'

@@ -1,0 +1,81 @@
+---
+name: Push OCI Image
+
+on:
+  workflow_call:
+    inputs:
+      image-name:
+        description: 'Base name for the OCI image (e.g., bluefin-wallpapers)'
+        required: true
+        type: string
+      release-tag:
+        description: 'Release tag to use for the image'
+        required: true
+        type: string
+      flavors:
+        description: 'JSON array of flavors to build (e.g., ["gnome", "kde", "macos", "png"]). Use [""] for single image.'
+        required: true
+        type: string
+      artifact-name:
+        description: 'Name of the artifact to download'
+        required: false
+        type: string
+        default: 'packaging-artifacts'
+
+jobs:
+  push-image:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor: ${{ fromJson(inputs.flavors) }}
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: .
+
+      - name: Debug - List downloaded artifacts
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Files in current directory:"
+          ls -lah
+          echo "Looking for tarballs:"
+          find . -name "*.tar.zstd" -ls
+
+      - name: Extract tarball
+        run: |
+          mkdir content
+          if [ "${{ matrix.flavor }}" = "" ]; then
+            # Single image - no flavor suffix
+            tar --zstd -xf ${{ inputs.image-name }}.tar.zstd -C content
+          else
+            # Multi-flavor image
+            tar --zstd -xf ${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd -C content
+          fi
+
+      - name: Create Dockerfile
+        run: |
+          echo "FROM scratch" > Dockerfile
+          echo "COPY content /usr/share/backgrounds/${{ inputs.image-name }}/" >> Dockerfile
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
+            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
+          file: Dockerfile
