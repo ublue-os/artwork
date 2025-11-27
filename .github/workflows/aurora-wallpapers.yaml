@@ -41,47 +41,15 @@ jobs:
         uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1
         with:
           tag:   ${{ steps.tag.outputs.tag }}
-          allowUpdates: false
+          allowUpdates: true
           name:  "${{ steps.tag.outputs.tag }}"
           artifacts: "output/packaging/aurora-wallpapers.tar.zstd"
           token: ${{ secrets.GITHUB_TOKEN }}
 
   push-image:
     needs: create-release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: packaging-artifacts
-          path: .
-
-      - name: Extract tarball
-        run: |
-          mkdir content
-          tar --zstd -xf output/packaging/aurora-wallpapers.tar.zstd -C content
-
-      - name: Create Dockerfile
-        run: |
-          echo "FROM scratch" > Dockerfile
-          echo "COPY content /usr/share/backgrounds/aurora-wallpapers/" >> Dockerfile
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and Push Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/aurora-wallpapers:${{ needs.create-release.outputs.tag }}
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/aurora-wallpapers:latest
-          file: Dockerfile
+    uses: ./.github/workflows/push-oci-image.yaml
+    with:
+      image-name: aurora-wallpapers
+      release-tag: ${{ needs.create-release.outputs.tag }}
+      flavors: '[""]'
