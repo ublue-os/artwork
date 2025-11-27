@@ -1,5 +1,6 @@
 ---
 name: Push OCI Image
+
 on:
   workflow_call:
     inputs:
@@ -31,13 +32,13 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Download artifacts
+      - name: Download artifacts ⬇️
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.artifact-name }}
           path: .
 
-      - name: Debug - Analyze File Type
+      - name: Debug - Analyze File Type 🔍
         run: |
           echo "Current directory:"
           pwd
@@ -45,21 +46,19 @@ jobs:
           ls -lah
           
           echo "Checking file magic numbers (signatures):"
-          # 'file' command determines type by content, not extension
-          # We use find to safely pass the filename to the file command
+          # Use find -exec to safely pass filenames to the 'file' command
           find . -name "*.tar.zstd" -exec file {} \;
 
       - name: Install zstd
-        # Still useful to have installed just in case tar auto-detects it actually IS zstd
         run: |
           sudo apt-get update
           sudo apt-get install -y zstd
 
-      - name: Extract tarball
+      - name: Extract tarball 📦
         run: |
           mkdir content
           
-          # 1. Determine the filename based on flavor
+          # 1. Determine the exact filename based on flavor
           if [ -z "${{ matrix.flavor }}" ]; then
             TARGET_FILE="${{ inputs.image-name }}.tar.zstd"
           else
@@ -68,33 +67,30 @@ jobs:
           
           echo "Targeting file: $TARGET_FILE"
           
-          # 2. Extract using Auto-Detection
-          # We removed '-I zstd'. 
-          # GNU Tar will inspect the file header. 
-          # - If it's GZIP, it handles it. 
-          # - If it's ZSTD, it handles it (since we installed zstd above).
-          # - If it's uncompressed, it handles it.
+          # 2. Extract using Tar Auto-Detection (-xf)
+          # This should fix the "unsupported format" error by not forcing zstd
           tar -xf "$TARGET_FILE" -C content
 
-      - name: Create Dockerfile
+      - name: Create Dockerfile 📝
         run: |
           echo "FROM scratch" > Dockerfile
           echo "COPY content /usr/share/backgrounds/${{ inputs.image-name }}/" >> Dockerfile
 
-      - name: Login to GitHub Container Registry
+      - name: Login to GitHub Container Registry 🔑
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Image
+      - name: Build and Push Image 🚀
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          # Using format() allows for cleaner logic than conditional strings
           tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
+            # FIX: Used github.event.repository.name to remove the duplicate owner name from the path.
+            # FIX: Assuming 'release-tag' will now be a clean version (e.g., 'v2025-11-27') to avoid redundancy.
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
           file: Dockerfile
