@@ -46,6 +46,7 @@ jobs:
           ls -lah
           echo "Looking for tarballs:"
           find . -name "*.tar.zstd" -ls
+          file /home/runner/artwork/artwork/*.tar.zstd
 
       - name: Install zstd
         run: |
