@@ -72,7 +72,6 @@ jobs:
           context: .
           push: true
           tags: |
-            # FIX: Using github.repository (e.g., hanthor/artwork) as the base path.
             ghcr.io/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
             ghcr.io/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
           file: Dockerfile
