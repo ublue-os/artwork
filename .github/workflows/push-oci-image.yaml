@@ -38,17 +38,7 @@ jobs:
           name: ${{ inputs.artifact-name }}
           path: .
 
-      - name: Debug - Analyze File Type 🔍
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files size check:"
-          ls -lah
-          
-          echo "Checking file magic numbers (signatures):"
-          find . -name "*.tar.zstd" -exec file {} \;
-
-      - name: Install zstd
+      - name: Install zstd 💾
         run: |
           sudo apt-get update
           sudo apt-get install -y zstd
@@ -82,6 +72,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
+            # FIX: Using github.repository (e.g., hanthor/artwork) as the base path.
+            ghcr.io/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
+            ghcr.io/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
           file: Dockerfile
+          
