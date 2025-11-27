@@ -46,7 +46,6 @@ jobs:
           ls -lah
           
           echo "Checking file magic numbers (signatures):"
-          # Use find -exec to safely pass filenames to the 'file' command
           find . -name "*.tar.zstd" -exec file {} \;
 
       - name: Install zstd
@@ -57,18 +56,12 @@ jobs:
       - name: Extract tarball 📦
         run: |
           mkdir content
-          
-          # 1. Determine the exact filename based on flavor
           if [ -z "${{ matrix.flavor }}" ]; then
             TARGET_FILE="${{ inputs.image-name }}.tar.zstd"
           else
             TARGET_FILE="${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd"
           fi
-          
           echo "Targeting file: $TARGET_FILE"
-          
-          # 2. Extract using Tar Auto-Detection (-xf)
-          # This should fix the "unsupported format" error by not forcing zstd
           tar -xf "$TARGET_FILE" -C content
 
       - name: Create Dockerfile 📝
@@ -89,8 +82,6 @@ jobs:
           context: .
           push: true
           tags: |
-            # FIX: Used github.event.repository.name to remove the duplicate owner name from the path.
-            # FIX: Assuming 'release-tag' will now be a clean version (e.g., 'v2025-11-27') to avoid redundancy.
             ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
             ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
           file: Dockerfile
