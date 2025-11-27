@@ -59,13 +59,15 @@ jobs:
           name: packaging-artifacts
           path: .
 
-      - name: Clean up artifacts
-        run: rm *.tar.zstd
+      - name: Extract tarball
+        run: |
+          mkdir content
+          tar --zstd -xf output/packaging/bazzite-wallpapers.tar.zstd -C content
 
       - name: Create Dockerfile
         run: |
           echo "FROM scratch" > Dockerfile
-          echo "COPY . /usr/share/backgrounds/bazzite-wallpapers/" >> Dockerfile
+          echo "COPY content /usr/share/backgrounds/bazzite-wallpapers/" >> Dockerfile
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3

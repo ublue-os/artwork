@@ -5,7 +5,7 @@ on:
 
 jobs:
   create-release:
-    name: Create Release for Bluefin Wallpapers with Plasma Dynamic Wallpaper support
+    name: Create Release for Bluefin Wallpapers
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -82,13 +82,15 @@ jobs:
           name: packaging-artifacts
           path: .
 
-      - name: Clean up artifacts
-        run: rm *.tar.zstd
+      - name: Extract tarball
+        run: |
+          mkdir content
+          tar --zstd -xf output/packaging/bluefin-wallpapers-${{ matrix.flavor }}.tar.zstd -C content
 
       - name: Create Dockerfile
         run: |
           echo "FROM scratch" > Dockerfile
-          echo "COPY ${{ matrix.flavor }} /usr/share/backgrounds/bluefin-wallpapers/" >> Dockerfile
+          echo "COPY content /usr/share/backgrounds/bluefin-wallpapers/" >> Dockerfile
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
