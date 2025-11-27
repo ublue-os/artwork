@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flavor: [gnome, kde, macos, png]
+        flavor: [gnome, kde, macos]
     permissions:
       contents: read
       packages: write
