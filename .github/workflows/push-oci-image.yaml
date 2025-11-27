@@ -1,6 +1,5 @@
 ---
 name: Push OCI Image
-
 on:
   workflow_call:
     inputs:
@@ -38,17 +37,20 @@ jobs:
           name: ${{ inputs.artifact-name }}
           path: .
 
-      - name: Debug - List downloaded artifacts
+      - name: Debug - Analyze File Type
         run: |
           echo "Current directory:"
           pwd
-          echo "Files in current directory:"
+          echo "Files size check:"
           ls -lah
-          echo "Looking for tarballs:"
-          find . -name "*.tar.zstd" -ls
-          file "*.tar.zstd"
+          
+          echo "Checking file magic numbers (signatures):"
+          # 'file' command determines type by content, not extension
+          # We use find to safely pass the filename to the file command
+          find . -name "*.tar.zstd" -exec file {} \;
 
       - name: Install zstd
+        # Still useful to have installed just in case tar auto-detects it actually IS zstd
         run: |
           sudo apt-get update
           sudo apt-get install -y zstd
@@ -56,15 +58,23 @@ jobs:
       - name: Extract tarball
         run: |
           mkdir content
-          if [ "${{ matrix.flavor }}" = "" ]; then
-            # Single image - no flavor suffix
-            # Change: Replace --zstd with -I zstd for broader compatibility
-            tar -I zstd -xf ${{ inputs.image-name }}.tar.zstd -C content 
+          
+          # 1. Determine the filename based on flavor
+          if [ -z "${{ matrix.flavor }}" ]; then
+            TARGET_FILE="${{ inputs.image-name }}.tar.zstd"
           else
-            # Multi-flavor image
-            # Change: Replace --zstd with -I zstd for broader compatibility
-            tar -I zstd -xf ${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd -C content
+            TARGET_FILE="${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd"
           fi
+          
+          echo "Targeting file: $TARGET_FILE"
+          
+          # 2. Extract using Auto-Detection
+          # We removed '-I zstd'. 
+          # GNU Tar will inspect the file header. 
+          # - If it's GZIP, it handles it. 
+          # - If it's ZSTD, it handles it (since we installed zstd above).
+          # - If it's uncompressed, it handles it.
+          tar -xf "$TARGET_FILE" -C content
 
       - name: Create Dockerfile
         run: |
@@ -83,6 +93,7 @@ jobs:
         with:
           context: .
           push: true
+          # Using format() allows for cleaner logic than conditional strings
           tags: |
             ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
             ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
