@@ -92,7 +92,7 @@ jobs:
       - name: Create Dockerfile
         run: |
           echo "FROM scratch" > Dockerfile
-          echo "COPY output/packaging/${{ matrix.flavor }} /usr/share/backgrounds/bluefin-wallpapers-extra/" >> Dockerfile
+          echo "COPY ${{ matrix.flavor }} /usr/share/backgrounds/bluefin-wallpapers-extra/" >> Dockerfile
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
