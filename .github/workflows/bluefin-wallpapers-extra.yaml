@@ -53,7 +53,10 @@ jobs:
 
       - name: Determine tag
         id: tag
-        run: echo "tag=bluefin-extra-v$(date --iso-8601=date)" >> "$GITHUB_OUTPUT"
+        run: |
+          DATE_SUFFIX="$(date --iso-8601=date)"
+          echo "tag=bluefin-extra-v${DATE_SUFFIX}" >> "$GITHUB_OUTPUT"
+          echo "container_tag=v${DATE_SUFFIX}" >> "$GITHUB_OUTPUT"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -75,5 +78,5 @@ jobs:
     uses: ./.github/workflows/push-oci-image.yaml
     with:
       image-name: bluefin-wallpapers-extra
-      release-tag: ${{ needs.create-release.outputs.tag }}
+      release-tag: ${{ needs.create-release.outputs.container_tag }}
       flavors: '["gnome", "kde", "macos", "png"]'
