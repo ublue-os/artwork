@@ -32,57 +32,47 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Download artifacts
+      - name: Download artifacts ⬇️
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.artifact-name }}
           path: .
 
-      - name: Debug - List downloaded artifacts
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files in current directory:"
-          ls -lah
-          echo "Looking for tarballs:"
-          find . -name "*.tar.zstd" -ls
-
-      - name: Install zstd
+      - name: Install zstd 💾
         run: |
           sudo apt-get update
           sudo apt-get install -y zstd
 
-      - name: Extract tarball
+      - name: Extract tarball 📦
         run: |
           mkdir content
-          if [ "${{ matrix.flavor }}" = "" ]; then
-            # Single image - no flavor suffix
-            # Change: Replace --zstd with -I zstd for broader compatibility
-            tar -I zstd -xf ${{ inputs.image-name }}.tar.zstd -C content 
+          if [ -z "${{ matrix.flavor }}" ]; then
+            TARGET_FILE="${{ inputs.image-name }}.tar.zstd"
           else
-            # Multi-flavor image
-            # Change: Replace --zstd with -I zstd for broader compatibility
-            tar -I zstd -xf ${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd -C content
+            TARGET_FILE="${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd"
           fi
+          echo "Targeting file: $TARGET_FILE"
+          tar -xf "$TARGET_FILE" -C content
 
-      - name: Create Dockerfile
+      - name: Create Dockerfile 📝
         run: |
           echo "FROM scratch" > Dockerfile
           echo "COPY content /usr/share/backgrounds/${{ inputs.image-name }}/" >> Dockerfile
 
-      - name: Login to GitHub Container Registry
+      - name: Login to GitHub Container Registry 🔑
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Image
+      - name: Build and Push Image 🚀
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
+            ghcr.io/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
+            ghcr.io/${{ github.repository }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
           file: Dockerfile
+          
