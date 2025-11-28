@@ -12,7 +12,7 @@ jobs:
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
     # We need a newish version of kimageformats, 24.04 doesn't have it
-    container: docker.io/library/ubuntu:25.04@sha256:103c7471649a4fd9996fe73dff20f46082e4e0f0f6240c91954b8b09c38b6faf
+    container: docker.io/library/ubuntu:plucky-20251001@sha256:27771fb7b40a58237c98e8d3e6b9ecdd9289cec69a857fccfb85ff36294dac20
 
     steps:
 
