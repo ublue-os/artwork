@@ -11,6 +11,7 @@ jobs:
       contents: write
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
+      container_tag: ${{ steps.tag.outputs.container_tag }}
     # We need a newish version of kimageformats, 24.04 doesn't have it
     container: docker.io/library/ubuntu:25.04@sha256:103c7471649a4fd9996fe73dff20f46082e4e0f0f6240c91954b8b09c38b6faf
 
