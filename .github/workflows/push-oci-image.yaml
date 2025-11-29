@@ -57,7 +57,7 @@ jobs:
       - name: Create Dockerfile 📝
         run: |
           echo "FROM scratch" > Dockerfile
-          echo "COPY content /usr/share/backgrounds/${{ inputs.image-name }}/" >> Dockerfile
+          echo "COPY content /" >> Dockerfile
 
       - name: Login to GitHub Container Registry 🔑
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
