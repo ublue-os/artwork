@@ -3,6 +3,9 @@ name: Push OCI Image
 
 on:
   workflow_call:
+    secrets:
+      SIGNING_SECRET:
+        required: true
     inputs:
       image-name:
         description: 'Base name for the OCI image (e.g., bluefin-wallpapers)'
