@@ -57,3 +57,5 @@ jobs:
       image-name: bazzite-wallpapers
       release-tag: ${{ needs.create-release.outputs.container_tag }}
       flavors: '[""]'
+    secrets:
+      SIGNING_SECRET: ${{ secrets.SIGNING_SECRET }}

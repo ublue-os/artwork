@@ -77,3 +77,5 @@ jobs:
       image-name: bluefin-wallpapers
       release-tag: ${{ needs.create-release.outputs.container_tag }}
       flavors: '["gnome", "kde", "macos", "png"]'
+    secrets:
+      SIGNING_SECRET: ${{ secrets.SIGNING_SECRET }}
