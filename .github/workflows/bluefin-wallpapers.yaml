@@ -13,12 +13,12 @@ jobs:
       tag: ${{ steps.tag.outputs.tag }}
       container_tag: ${{ steps.tag.outputs.container_tag }}
     # We need a newish version of kimageformats, 24.04 doesn't have it
-    container: docker.io/library/ubuntu:25.04@sha256:103c7471649a4fd9996fe73dff20f46082e4e0f0f6240c91954b8b09c38b6faf
+    container: docker.io/library/ubuntu:plucky-20251001@sha256:27771fb7b40a58237c98e8d3e6b9ecdd9289cec69a857fccfb85ff36294dac20
 
     steps:
 
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           fetch-depth: 0
       - name: Create tarballs
@@ -56,7 +56,7 @@ jobs:
           echo "container_tag=v${DATE_SUFFIX}" >> "$GITHUB_OUTPUT"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: packaging-artifacts
           path: output/packaging/
@@ -77,3 +77,5 @@ jobs:
       image-name: bluefin-wallpapers
       release-tag: ${{ needs.create-release.outputs.container_tag }}
       flavors: '["gnome", "kde", "macos", "png"]'
+    secrets:
+      SIGNING_SECRET: ${{ secrets.SIGNING_SECRET }}
