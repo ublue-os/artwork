@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>Project Bluefin - Leaf Collector</name>
+    <filename>~/.local/share/backgrounds/bluefin/leaf-collector/leaf-collector-day.svg</filename>
+    <filename-dark>~/.local/share/backgrounds/bluefin/leaf-collector/leaf-collector-night.svg</filename-dark>
+    <options>zoom</options>
+  </wallpaper>
+</wallpapers>
