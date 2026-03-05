@@ -1,0 +1,13 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "https://ko-fi.com/chandeleer",
+                "Name": "Chandeleer"
+            }
+        ],
+        "Id": "Luminance",
+        "License": "CC-BY-SA",
+        "Name": "Luminance"
+    }
+}
