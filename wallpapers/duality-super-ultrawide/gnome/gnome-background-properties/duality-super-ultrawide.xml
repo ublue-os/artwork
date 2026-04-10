@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>Project Bluefin - Duality Super Ultrawide</name>
+    <filename>~/.local/share/backgrounds/bluefin/duality-super-ultrawide/duality-super-ultrawide-day.svg</filename>
+    <filename-dark>~/.local/share/backgrounds/bluefin/duality-super-ultrawide/duality-super-ultrawide-night.svg</filename-dark>
+    <options>zoom</options>
+  </wallpaper>
+</wallpapers>
