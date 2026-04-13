@@ -30,8 +30,8 @@ jobs:
           mkdir -p output/packaging/gnome/images
           mkdir -p output/packaging/png
           
-          # Process all extra wallpapers: collapse, dusk, prey, tenacious-pterosaur
-          for wp in "dusk" "prey" "huntress" "tenacious-pterosaur"; do
+          # Process all extra wallpapers
+          for wp in "dusk" "prey" "huntress" "tenacious-pterosaur" "leaf-collector" "duality" "eyes"; do
             # macOS: HEIC dynamic wallpapers
             cp wallpapers/$wp/macos/*.heic output/packaging/macos/ 2>/dev/null || true
             
