@@ -31,7 +31,7 @@ jobs:
           mkdir -p output/packaging/png
           
           # Process all extra wallpapers
-          for wp in "dusk" "prey" "huntress" "tenacious-pterosaur" "leaf-collector" "duality" "eyes"; do
+          for wp in "dusk" "prey" "huntress" "tenacious-pterosaur" "leaf-collector" "duality" "eyes" "lazy-days"; do
             # macOS: HEIC dynamic wallpapers
             cp wallpapers/$wp/macos/*.heic output/packaging/macos/ 2>/dev/null || true
             
