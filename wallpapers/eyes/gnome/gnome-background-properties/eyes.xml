@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>Project Bluefin - Eyes</name>
+    <filename>~/.local/share/backgrounds/bluefin/eyes/eyes.svg</filename>
+    <options>zoom</options>
+  </wallpaper>
+</wallpapers>

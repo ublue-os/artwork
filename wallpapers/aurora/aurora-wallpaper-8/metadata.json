@@ -1,0 +1,13 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "https://ko-fi.com/chandeleer",
+                "Name": "Chandeleer"
+            }
+        ],
+        "Id": "Holiday Blues",
+        "License": "CC-BY-SA",
+        "Name": "Holiday Blues"
+    }
+}

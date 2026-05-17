@@ -1,0 +1,13 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "https://ko-fi.com/chandeleer",
+                "Name": "Chandeleer"
+            }
+        ],
+        "Id": "Coneheads",
+        "License": "CC-BY-SA",
+        "Name": "Coneheads"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "https://ko-fi.com/chandeleer",
+                "Name": "Chandeleer"
+            }
+        ],
+        "Id": "Skywrecker",
+        "License": "CC-BY-SA",
+        "Name": "Skywrecker"
+    }
+}

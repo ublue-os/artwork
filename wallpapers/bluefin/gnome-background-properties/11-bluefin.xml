@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>Collapse - November</name>
+    <filename>~/.local/share/backgrounds/bluefin/11-bluefin.svg</filename>
+    <filename-dark>~/.local/share/backgrounds/bluefin/11-bluefin-dark.svg</filename-dark>
+    <options>zoom</options>
+  </wallpaper>
+</wallpapers>

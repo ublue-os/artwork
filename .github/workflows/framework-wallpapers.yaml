@@ -1,0 +1,81 @@
+---
+name: Framework Wallpapers
+on:
+  workflow_dispatch:
+
+jobs:
+  create-release:
+    name: Create Release for Framework Wallpapers with Gnome and KDE support
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+      container_tag: ${{ steps.tag.outputs.container_tag }}
+    # We need a newish version of kimageformats, 24.04 doesn't have it
+    container: docker.io/library/ubuntu:plucky-20251001@sha256:27771fb7b40a58237c98e8d3e6b9ecdd9289cec69a857fccfb85ff36294dac20
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+      - name: Create tarballs
+        shell: bash
+        run: |
+          # Create separate archives for each platform
+          mkdir -p output/packaging/macos
+          mkdir -p output/packaging/kde
+          mkdir -p output/packaging/gnome/images
+          mkdir -p output/packaging/png
+          
+          # macOS: HEIC dynamic wallpapers
+          cp wallpapers/framework/macos/*.heic output/packaging/macos/
+          cd output/packaging/macos && tar -acvf ../framework-wallpapers-macos.tar.zstd *.heic && cd -
+          
+          # KDE: AVIF wallpapers
+          cp wallpapers/framework/kde/*.avif output/packaging/kde/
+          cd output/packaging/kde && tar -acvf ../framework-wallpapers-kde.tar.zstd *.avif && cd -
+          
+          # GNOME: SVG wallpapers + XML metadata
+          cp wallpapers/framework/*.svg output/packaging/gnome/images/
+          cp wallpapers/framework/gnome/*.xml output/packaging/gnome/images/
+          cp -R wallpapers/framework/gnome/gnome-background-properties output/packaging/gnome/
+          cd output/packaging/gnome && tar -acvf ../framework-wallpapers-gnome.tar.zstd * && cd -
+          
+          # PNG: For other desktops
+          cp wallpapers/framework/png/*.png output/packaging/png/
+          cd output/packaging/png && tar -acvf ../framework-wallpapers-png.tar.zstd *.png && cd -
+
+      - name: Determine tag
+        id: tag
+        run: |
+          DATE_SUFFIX="$(date --iso-8601=date)"
+          echo "tag=framework-v${DATE_SUFFIX}" >> "$GITHUB_OUTPUT"
+          echo "container_tag=v${DATE_SUFFIX}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
+        with:
+          name: packaging-artifacts
+          path: output/packaging/
+
+      - name: Publish release
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1
+        with:
+          tag:   ${{ steps.tag.outputs.tag }}
+          allowUpdates: true
+          name:  "${{ steps.tag.outputs.tag }}"
+          artifacts: "output/packaging/framework-wallpapers-*.tar.zstd"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  push-image:
+    needs: create-release
+    uses: ./.github/workflows/push-oci-image.yaml
+    with:
+      image-name: framework-wallpapers
+      release-tag: ${{ needs.create-release.outputs.container_tag }}
+      flavors: '["gnome", "kde", "macos", "png"]'
+    secrets:
+      SIGNING_SECRET: ${{ secrets.SIGNING_SECRET }}
