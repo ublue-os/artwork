@@ -14,35 +14,35 @@ jobs:
 
     steps:
       - name: Trigger Bluefin Wallpapers
-        uses: benc-uk/workflow-dispatch@7a027648b88c2413826b6ddd6c76114894dc5ec4 # v1
+        uses: benc-uk/workflow-dispatch@31e2b3319479a63f0ab15bf800eff9e913504e26 # v1
         with:
           workflow: bluefin-wallpapers.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Trigger Bluefin Wallpapers Extra
-        uses: benc-uk/workflow-dispatch@7a027648b88c2413826b6ddd6c76114894dc5ec4 # v1
+        uses: benc-uk/workflow-dispatch@31e2b3319479a63f0ab15bf800eff9e913504e26 # v1
         with:
           workflow: bluefin-wallpapers-extra.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Trigger Aurora Wallpapers
-        uses: benc-uk/workflow-dispatch@7a027648b88c2413826b6ddd6c76114894dc5ec4 # v1
+        uses: benc-uk/workflow-dispatch@31e2b3319479a63f0ab15bf800eff9e913504e26 # v1
         with:
           workflow: aurora-wallpapers.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Trigger Bazzite Wallpapers
-        uses: benc-uk/workflow-dispatch@7a027648b88c2413826b6ddd6c76114894dc5ec4 # v1
+        uses: benc-uk/workflow-dispatch@31e2b3319479a63f0ab15bf800eff9e913504e26 # v1
         with:
           workflow: bazzite-wallpapers.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
       - name: Trigger Framework Wallpapers
-        uses: benc-uk/workflow-dispatch@7a027648b88c2413826b6ddd6c76114894dc5ec4 # v1
+        uses: benc-uk/workflow-dispatch@31e2b3319479a63f0ab15bf800eff9e913504e26 # v1
         with:
           workflow: framework-wallpapers.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
