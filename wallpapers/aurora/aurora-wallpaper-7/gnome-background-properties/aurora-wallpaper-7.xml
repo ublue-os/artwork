@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>FallBlues</name>
+    <filename>~/.local/share/backgrounds/aurora/aurora-wallpaper-7.jxl</filename>
+    <options>zoom</options>
+    <shade_type>solid</shade_type>
+    <pcolor>#464646</pcolor>
+    <scolor>#464646</scolor>
+  </wallpaper>
+</wallpapers>

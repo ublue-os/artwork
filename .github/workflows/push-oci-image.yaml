@@ -1,0 +1,99 @@
+---
+name: Push OCI Image
+
+on:
+  workflow_call:
+    secrets:
+      SIGNING_SECRET:
+        required: true
+    inputs:
+      image-name:
+        description: 'Base name for the OCI image (e.g., bluefin-wallpapers)'
+        required: true
+        type: string
+      release-tag:
+        description: 'Release tag to use for the image'
+        required: true
+        type: string
+      flavors:
+        description: 'JSON array of flavors to build (e.g., ["gnome", "kde", "macos", "png"]). Use [""] for single image.'
+        required: true
+        type: string
+      artifact-name:
+        description: 'Name of the artifact to download'
+        required: false
+        type: string
+        default: 'packaging-artifacts'
+
+env:
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+
+jobs:
+  push-image:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor: ${{ fromJson(inputs.flavors) }}
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Download artifacts ⬇️
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: .
+
+      - name: Install zstd 💾
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zstd
+
+      - name: Extract tarball 📦
+        run: |
+          mkdir content
+          if [ -z "${{ matrix.flavor }}" ]; then
+            TARGET_FILE="${{ inputs.image-name }}.tar.zstd"
+          else
+            TARGET_FILE="${{ inputs.image-name }}-${{ matrix.flavor }}.tar.zstd"
+          fi
+          echo "Targeting file: $TARGET_FILE"
+          tar -xf "$TARGET_FILE" -C content
+
+      - name: Create Dockerfile 📝
+        run: |
+          echo "FROM scratch" > Dockerfile
+          echo "COPY content /" >> Dockerfile
+
+      - name: Login to GitHub Container Registry 🔑
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Image 🚀
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        id: buildpush
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE_REGISTRY }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:${{ inputs.release-tag }}
+            ${{ env.IMAGE_REGISTRY }}/${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}:latest
+          file: Dockerfile
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+        if: github.event_name != 'pull_request'
+
+      - name: Sign container image
+        if: github.event_name != 'pull_request'
+        run: |
+          IMAGE_NAME="${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}" 
+          cosign sign -y --key env://COSIGN_PRIVATE_KEY "${{ env.IMAGE_REGISTRY }}/${IMAGE_NAME}@${{ env.DIGEST }}"
+        env:
+          DIGEST: ${{ steps.buildpush.outputs.digest }}
+          COSIGN_EXPERIMENTAL: false
+          COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+
