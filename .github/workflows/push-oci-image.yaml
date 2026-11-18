@@ -87,11 +87,22 @@ jobs:
         uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
         if: github.event_name != 'pull_request'
 
+      # cosign v3 defaults to the new sigstore bundle format, stored as an OCI
+      # referrer (or a sha256-<digest> fallback tag on ghcr.io). Hosts verify
+      # these images with containers/image (policy.json sigstoreSigned +
+      # use-sigstore-attachments), which only reads the legacy
+      # sha256-<digest>.sig attachment and rejects bundle-only images with
+      # "no signature exists". Keep producing the legacy format until hosts
+      # can read the new one.
       - name: Sign container image
         if: github.event_name != 'pull_request'
         run: |
-          IMAGE_NAME="${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}" 
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY "${{ env.IMAGE_REGISTRY }}/${IMAGE_NAME}@${{ env.DIGEST }}"
+          IMAGE_NAME="${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}"
+          cosign sign -y \
+            --new-bundle-format=false \
+            --use-signing-config=false \
+            --key env://COSIGN_PRIVATE_KEY \
+            "${{ env.IMAGE_REGISTRY }}/${IMAGE_NAME}@${{ env.DIGEST }}"
         env:
           DIGEST: ${{ steps.buildpush.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
