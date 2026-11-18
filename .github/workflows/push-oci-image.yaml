@@ -94,11 +94,19 @@ jobs:
       # sha256-<digest>.sig attachment and rejects bundle-only images with
       # "no signature exists". Keep producing the legacy format until hosts
       # can read the new one.
+      #
+      # --recursive: ubuntu-latest is now ubuntu-26.04 with Docker 29 and the
+      # containerd image store, so build-push-action pushes an OCI index (the
+      # image plus a provenance attestation manifest). containers/image checks
+      # the signature of the platform manifest it pulls, not the index, and
+      # Renovate pins that per-platform digest in bluefin and bluefin-lts, so
+      # every manifest in the index has to be signed.
       - name: Sign container image
         if: github.event_name != 'pull_request'
         run: |
           IMAGE_NAME="${{ inputs.image-name }}${{ matrix.flavor != '' && format('-{0}', matrix.flavor) || '' }}"
           cosign sign -y \
+            --recursive \
             --new-bundle-format=false \
             --use-signing-config=false \
             --key env://COSIGN_PRIVATE_KEY \
